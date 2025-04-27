@@ -43,35 +43,64 @@ export default function App() {
     setshowAddFriend(false);
   }
 
+  // 007 button select friend
+  function handleSelection(friend) {
+    // setSelectedFriend(friend);
+    // 007 add toggle select or close (add ? optional chain because of null) == cur?.id === friend.id ? null : friend
+    setSelectedFriend((cur) => (cur?.id === friend.id ? null : friend));
+    // 007 add close form if add friend form is open
+    setshowAddFriend(false);
+  }
+
   return (
     <div className="app">
       <div className="sidebar">
-        <FriendList friends={friends} />
+        {/* 007 add onSelection prop to FriendList */}
+        {/* 007 add selectedFriend */}
+        <FriendList
+          friends={friends}
+          selectedFriend={selectedFriend}
+          onSelection={handleSelection}
+        />
         {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
         <Button onClick={handleShowAddFriend}>
           {showAddFriend ? "Close" : "Add Friend"}
         </Button>
       </div>
-      <FormSplitBill />
+      {/* 007 selectedFriend => pass on details to split bill form */}
+      {selectedFriend && <FormSplitBill selectedFriend={selectedFriend} />}
     </div>
   );
 }
 
-function FriendList({ friends }) {
+//  007 add onSelection prop => passing prop to Friend (prop drilling)
+// 007 add selectedFriend prop => passing prop to FriendList
+function FriendList({ friends, onSelection, selectedFriend }) {
   // const friends = initialFriends;
 
   return (
     <ul>
       {friends.map((friend) => (
-        <Friend friend={friend} key={friend.id} />
+        <Friend
+          friend={friend}
+          key={friend.id}
+          selectedFriend={selectedFriend}
+          onSelection={onSelection}
+        />
       ))}
     </ul>
   );
 }
 
-function Friend({ friend }) {
+// 007 add onSelection prop => passing prop to Button
+// 007 add selectedFriend prop
+function Friend({ friend, onSelection, selectedFriend }) {
+  // 007 add isSelected as boolean; ? means (optional chain) stop if selectedFriend is null
+  const isSelected = selectedFriend?.id === friend.id;
+
   return (
-    <li>
+    // 007 add className selected
+    <li className={isSelected ? "selected" : ""}>
       {/* {friend.name} */}
       <img src={friend.image} alt={friend.name} />
       <h3>{friend.name}</h3>
@@ -88,7 +117,11 @@ function Friend({ friend }) {
       )}
       {friend.balance === 0 && <p>You and {friend.name} are even</p>}
 
-      <Button>Select</Button>
+      {/* 007 add onCLick => open up split a bill form*/}
+      {/* 007 button either => "Close" : "Select" */}
+      <Button onClick={() => onSelection(friend)}>
+        {isSelected ? "Close" : "Select"}
+      </Button>
     </li>
   );
 }
@@ -137,10 +170,12 @@ function FormAddFriend({ onAddFriend }) {
   );
 }
 
-function FormSplitBill() {
+// 007 add selectedFriend prop
+function FormSplitBill({ selectedFriend }) {
   return (
     <form className="form-split-bill">
-      <h2>Split a bill with XXX </h2>
+      {/* 007 selectedFriend.name */}
+      <h2>Split a bill with {selectedFriend.name} </h2>
 
       <label>💰 Bill Value </label>
       <input type="text" />
@@ -148,12 +183,14 @@ function FormSplitBill() {
       <label>🐵 Your Expanses </label>
       <input type="text" />
 
-      <label>🤼 XXX's Expenses</label>
+      {/* 007 selectedFriend.name */}
+      <label>🤼 {selectedFriend.name} Expenses</label>
       <input type="text" disabled />
       <label>🤑 Who is paying the bill</label>
       <select>
         <option value="user">You</option>
-        <option value="friend">XXX</option>
+        {/* 007 selectedFriend.name */}
+        <option value="friend">{selectedFriend.name} </option>
       </select>
       <Button>Split Bill</Button>
     </form>
