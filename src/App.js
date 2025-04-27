@@ -172,22 +172,49 @@ function FormAddFriend({ onAddFriend }) {
 
 // 007 add selectedFriend prop
 function FormSplitBill({ selectedFriend }) {
+  // 008 add state - bill, expense paid by user, who is paying
+  const [bill, setBill] = useState("");
+  const [paidByuser, setPaidByUser] = useState("");
+  // 008 paidByFriend = split bill form Expenses calc
+  const paidByFriend = bill ? bill - paidByuser : "";
+  const [whoIsPaying, setWhoIsPaying] = useState("user");
+
   return (
     <form className="form-split-bill">
       {/* 007 selectedFriend.name */}
       <h2>Split a bill with {selectedFriend.name} </h2>
 
       <label>💰 Bill Value </label>
-      <input type="text" />
+      {/* 008 add value & onChange */}
+      <input
+        type="text"
+        value={bill}
+        onChange={(e) => setBill(Number(e.target.value))}
+      />
 
       <label>🐵 Your Expanses </label>
-      <input type="text" />
+      {/* 008 add value & onChange */}
+      {/* 008 bill ? paidByuser : Number(e.target.value) >> Expanses paid cant be more than bill value, if type more than the bill number it will not allow  */}
+      <input
+        type="text"
+        value={paidByuser}
+        onChange={(e) =>
+          setPaidByUser(
+            Number(e.target.value) > bill ? paidByuser : Number(e.target.value)
+          )
+        }
+      />
 
       {/* 007 selectedFriend.name */}
-      <label>🤼 {selectedFriend.name} Expenses</label>
-      <input type="text" disabled />
+      <label>🤼 {selectedFriend.name}'s Expenses</label>
+      {/* 008 add value={paidByFriend} */}
+      <input type="text" disabled value={paidByFriend} />
       <label>🤑 Who is paying the bill</label>
-      <select>
+      {/* 008 add value & onChange */}
+      <select
+        value={whoIsPaying}
+        onChange={(e) => setWhoIsPaying(e.target.value)}
+      >
         <option value="user">You</option>
         {/* 007 selectedFriend.name */}
         <option value="friend">{selectedFriend.name} </option>
