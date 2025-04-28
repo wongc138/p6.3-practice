@@ -52,6 +52,21 @@ export default function App() {
     setshowAddFriend(false);
   }
 
+  //009.3 handleSplitBill
+  // 009.7 setFriends
+  function handleSplitBill(value) {
+    setFriends((friends) =>
+      friends.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
+
+    // 009.8 setSelectedFriend >> once click on split bill, close the form
+    setSelectedFriend(null);
+  }
+
   return (
     <div className="app">
       <div className="sidebar">
@@ -68,7 +83,13 @@ export default function App() {
         </Button>
       </div>
       {/* 007 selectedFriend => pass on details to split bill form */}
-      {selectedFriend && <FormSplitBill selectedFriend={selectedFriend} />}
+      {/* 009.4 onSplitBill={handleSplitBill} */}
+      {selectedFriend && (
+        <FormSplitBill
+          selectedFriend={selectedFriend}
+          onSplitBill={handleSplitBill}
+        />
+      )}
     </div>
   );
 }
@@ -171,7 +192,8 @@ function FormAddFriend({ onAddFriend }) {
 }
 
 // 007 add selectedFriend prop
-function FormSplitBill({ selectedFriend }) {
+// 009.5 onSplitBill prop
+function FormSplitBill({ selectedFriend, onSplitBill }) {
   // 008 add state - bill, expense paid by user, who is paying
   const [bill, setBill] = useState("");
   const [paidByuser, setPaidByUser] = useState("");
@@ -179,8 +201,19 @@ function FormSplitBill({ selectedFriend }) {
   const paidByFriend = bill ? bill - paidByuser : "";
   const [whoIsPaying, setWhoIsPaying] = useState("user");
 
+  // 009.2 add handleSubmit function
+  // e.preventDefault() to prevent page refresh
+  // if (!bill || !paidByuser) return nothing
+  // 009.6 onSplitBill >> who pays the bill
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!bill || !paidByuser) return;
+    onSplitBill(whoIsPaying === "user" ? paidByFriend : -paidByuser);
+  }
+
+  // 009.1 add onSubmit={handleSubmit}
   return (
-    <form className="form-split-bill">
+    <form className="form-split-bill" onSubmit={handleSubmit}>
       {/* 007 selectedFriend.name */}
       <h2>Split a bill with {selectedFriend.name} </h2>
 
