@@ -51,6 +51,7 @@ export default function App() {
     // 006.20 App();handleAddFriend(); Add setFriends((friends) => [...friends, friend]); to add the new friend to the list
     //006.21 [...friends, friend] >> spread operator to add the new friend to the list of friends and return a new array
     setFriends((friends) => [...friends, friend]);
+    // 006.25 App();handleAddFriend(); setshowAddFriend(false); to close the form after adding a friend
     setshowAddFriend(false);
   }
 

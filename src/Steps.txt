@@ -70,13 +70,14 @@
  {/* 006.17 App();return;<FriendList/> friends={friends} Giving access to the useSate by passing down friends as a prop to FriendList() component */}
  // 006.18 FriendList(friends); Receive the friends prop from App() component
  
+ Lifted up stated from FormAddFriend to App and to FriendList
 // 006.19 App();handleAddFriend(friend); Add function handleAddFriend(friend) to add a new friend to the list. Passing (friend) object to the function.
  // 006.20 App();handleAddFriend(); Add setFriends((friends) => [...friends, friend]); to add the new friend to the list
  //006.21 [...friends, friend] >> spread operator to add the new friend to the list of friends and return a new array
  {/* 006.22 App();return; <FormAddFriend> Add onAddFriend={handleAddFriend} */}
  // 006.23 FormAddFriend({ onAddFriend }); Add onAddFriend prop to FormAddFriend() component to pass the function from App() component to FormAddFriend() component
  // 006.24 FormAddFriend(); handleSubmit(e); call onAddFriend function with newFriend >> onAddFriend(newFriend)
- 
+ // 006.25 App();handleAddFriend(); setshowAddFriend(false); to close the form after adding a friend
  
  
 ==
