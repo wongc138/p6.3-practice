@@ -1,0 +1,82 @@
+002.1 npx create-react-app@5 project
+
+
+// 003.1 export default function App(), return
+// 003.2 npm start
+// 003.4 App();return; Add <FriendList /> component;
+// 003.5 App(); add div className="app"; add div className="sidebar"
+// 003.6 FriendList(); add const friends = initialFriends; delete later
+// 003.7 FriendList(); add friends.map((friend) => {friend.name} )
+// 003.8 Add Friend(); move (friend) => {friend.name} between <li> </li>
+// 003.9 FriendList();return; add <Friend /> component;
+// 003.10 Friend();return; add img alt; <h3>{friend.name}</h3>
+// 003.11 Friend();return; add <p>{friend.balance}</p> with conditionals >> You owe, they owe, even >> ternary operator 
+// 003.12 Friend();return; add <Button> Select </Button>
+
+
+// 004.1 Add FormAddFriend() component; return; <form>
+// 004.2 FormAddFriend();return; <label> <input> value={name} ; onChange
+// 004.2 FormAddFriend();return; <label> <input> value={image} ; onChange
+//004.3 Add Button() component
+// 004.4 Button();return; add {children} prop;
+{/* 004.5 Friend();return; Add <Button> Select  */}
+{/* 004.6 FormAddFriend();return; Add <Button> Add  */}
+// 004.7 App();return; add <FormAddFriend /> component;
+// 004.8 App();return; add <Button /> component;
+// 004.9 FormSplitBill(); return; <form> add className="form-split-bill"
+// 004.10 FormSplitBill();return; <h2>Split a bill with XXX </h2>
+// 004.11 App();return; add <FormSplitBill /> component;
+
+// 004.12 FormSplitBill();return; add <label>Bill <input> value={bill} ;
+// 004.13 FormSplitBill();return; add <label>Youe expense <input> value={paidByuser} ;
+// 004.14 FormSplitBill();return; add <label>X's expense <input> value={paidByFriend} ;
+// 004.15 FormSplitBill();return; add <label>X's expense  Add <input disabled> ; disabled input so user cant change it
+// 004.16 FormSplitBill();return; add <label>Who is paying <select> value={whoIsPaying} <option value="user"> <option value="friend">
+
+
+// 005.1 To show/hide FormAddFriend, need to add state in the App component
+// 005.2 App(); [showAddFriend]=useState(false)
+{/* 005.3 App();return; short circuiting showAddFriend-useState && <FormAddFriend/> */}
+
+// 005.4 Button(onClick); add onClick as a prop; because onClick works on html but not in component, so need to pass it as a prop
+{/* 005.5 App();return; Updating the state to show FormAddFriend. <Button onClick={handleShowAddFriend}> To pass on the function {handleShowAddFriend} execute to be happen */}
+// 005.6 App(); function handleShowAddFriend() >> setshowAddFriend-useState >> To show/hide FormAddFriend >> ((show) => !show)
+ {/* 005.7 App();return; Conditional rendering for button to show {showAddFriend ? "Close" : "Add Friend"} */}
+ 
+ 
+ // 006.1 To get the value from <input> into FormAddFriend component, use control elements with state, where use one piece of state for each input, any value type will sync with the state
+ // 006.2 [name]= useState("") >> default value is empty string
+ // 006.3 [image]= useState("default website for image") >> default value is empty string
+ 
+ {/* 006.4 FormAddFriend();return; Link the value to useState {name}. Add <input> value={name} ; onChange. */}
+ {/* 006.5 FormAddFriend();return; Link the value to useState {image}. Add <input> value={image} ; onChange. */}
+
+ // 006.6 FormAddFriend();return; <form> add onSubmit={handleSubmit}. onSubmit will trigger when the form is submitted by clicking the button or pressing enter. Calling the function {handleSubmit}
+ 
+// 006.8 FormAddFriend();handleSubmit(e); Add e.preventDefault() to prevent entire page refresh
+// 006.8 Remember onSubmit always need e.preventDefault()
+ 
+// 006.9 FormAddFriend();handleSubmit(e); Add object const newFriend = { id, name, image, balance: 0 };
+// 006.10 FormAddFriend();handleSubmit(e);newFriend; Add id: crypto.randomUUID()
+// 006.11 FormAddFriend();handleSubmit(e);newFriend; Add image: `${image}?=${id}`; to make sure the image is different every time
+// 006.12 FormAddFriend();handleSubmit(e); Create a variable id and set it to crypto.randomUUID() to generate a unique id for each friend
+
+ // 006.13 FormAddFriend();handleSubmit(e); To reset the form after submit >> setName(""); setImage("https://i.pravatar.cc/48");
+ 
+// 006.14 FormAddFriend();handleSubmit(e); To prevent empty form submission when clicking Add button >> Add if (!name || !image) return;
+ 
+// 006.15 Get rid of initialFriends; add friends as a prop to parent component App(), as Lifting state up
+// 006.16 App(); [friends]=useState(initialFriends); >> useState to set the initial state of friends to initialFriends (example data)
+ {/* 006.17 App();return;<FriendList/> friends={friends} Giving access to the useSate by passing down friends as a prop to FriendList() component */}
+ // 006.18 FriendList(friends); Receive the friends prop from App() component
+ 
+// 006.19 App();handleAddFriend(friend); Add function handleAddFriend(friend) to add a new friend to the list. Passing (friend) object to the function.
+ // 006.20 App();handleAddFriend(); Add setFriends((friends) => [...friends, friend]); to add the new friend to the list
+ //006.21 [...friends, friend] >> spread operator to add the new friend to the list of friends and return a new array
+ {/* 006.22 App();return; <FormAddFriend> Add onAddFriend={handleAddFriend} */}
+ // 006.23 FormAddFriend({ onAddFriend }); Add onAddFriend prop to FormAddFriend() component to pass the function from App() component to FormAddFriend() component
+ // 006.24 FormAddFriend(); handleSubmit(e); call onAddFriend function with newFriend >> onAddFriend(newFriend)
+ 
+ 
+ 
+==
