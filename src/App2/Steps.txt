@@ -3,6 +3,7 @@
 
 // 003.1 export default function App(), return
 // 003.2 npm start
+// 003.3 create function FriendsList();
 // 003.4 App();return; Add <FriendList /> component;
 // 003.5 App(); add div className="app"; add div className="sidebar"
 // 003.6 FriendList(); add const friends = initialFriends; delete later
@@ -13,7 +14,7 @@
 // 003.11 Friend();return; add <p>{friend.balance}</p> with conditionals >> You owe, they owe, even >> ternary operator 
 // 003.12 Friend();return; add <Button> Select </Button>
 
-
+Create FormAddFriend (lower form)
 // 004.1 Add FormAddFriend() component; return; <form>
 // 004.2 FormAddFriend();return; <label> <input> value={name} ; onChange
 // 004.2 FormAddFriend();return; <label> <input> value={image} ; onChange
@@ -34,6 +35,7 @@
 // 004.16 FormSplitBill();return; add <label>Who is paying <select> value={whoIsPaying} <option value="user"> <option value="friend">
 
 
+Show / Hide Form Lower New Friend
 // 005.1 To show/hide FormAddFriend, need to add state in the App component
 // 005.2 App(); [showAddFriend]=useState(false)
 {/* 005.3 App();return; short circuiting showAddFriend-useState && <FormAddFriend/> */}
@@ -44,6 +46,8 @@
  {/* 005.7 App();return; Conditional rendering for button to show {showAddFriend ? "Close" : "Add Friend"} */}
  
  
+ Adding new friends to the form - Use CONTROL ELEMENTS
+ Value typed in the field will be sync in the state
  // 006.1 To get the value from <input> into FormAddFriend component, use control elements with state, where use one piece of state for each input, any value type will sync with the state
  // 006.2 [name]= useState("") >> default value is empty string
  // 006.3 [image]= useState("default website for image") >> default value is empty string
@@ -79,7 +83,7 @@
  // 006.24 FormAddFriend(); handleSubmit(e); call onAddFriend function with newFriend >> onAddFriend(newFriend)
  // 006.25 App();handleAddFriend(); setshowAddFriend(false); to close the form after adding a friend
  
- 
+ Make the form work - to enable user select friend info >> At left panel, when click select it will open Right form with info
  // 007.1 App(); [selectedFriend]=useState(null); >> useState to set the initial state of selectedFriend to null (no friend selected)]
  {/* 007.2 handleSelection();return; selectedFriend && ( <FormSplitBill/> >> short-circuit to not display anything*/}
  // 007.3 App();handleSelection(friend); Add function handleSelection(friend) to select a friend to split the bill with >>
@@ -113,6 +117,7 @@ To make the close button to null
  // 007.19 If current selected fiend id is the same as the friend id, set selectedFriend to null, else set selectedFriend to the friend object. When close it will set selectedFriend to null
 
  
+To make the Right form work >> take input elements make them control elements
 // 008.1 FormSplitBill(); Add [bill]=useState(""); for bill, paidByuser, whoIsPaying
 // 008.2 FormSplitBill(); Add [paidByuser]=useState("");
 // 008.3 FormSplitBill(); Add [whoIsPaying]=useState("user"); for who is paying the bill
@@ -124,7 +129,7 @@ To make the close button to null
  >>> Control form elements
  {/* 008.7 FormSplitBill();return;<input/>;onChange >> bill ? paidByuser : Number(e.target.value) >> Expanses paid cant be more than bill value, if input more than the bill values, it will not allow it  */}
  
-
+Right Form - splitting the bill
  // 009.1 FormSplitBill();return;<form/>; Add onSubmit={handleSubmit}
  // 009.2 FormSplitBill(); Add handleSubmit function
  // 009.2 Add e.preventDefault() to prevent page refresh

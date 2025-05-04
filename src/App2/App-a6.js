@@ -34,7 +34,6 @@ function Buttona({ children, onClick1 }) {
 export default function App() {
   const [friendsArr, setfriendsArr] = useState(initialFriends);
   const [showFormAddFriend, setshowFormAddFriend] = useState(false);
-  const [selectedFriend, setSelectedFriend] = useState(null);
 
   function handleShowFormAddFriend() {
     setshowFormAddFriend((showform) => !showform);
@@ -45,74 +44,39 @@ export default function App() {
     setshowFormAddFriend(false); // Close the form after adding a friend
   }
 
-  function handleSelectFriend(friendd) {
-    // setSelectedFriend(friendd);
-    setSelectedFriend((curr) => (curr?.id === friendd.id ? null : friendd));
-    setshowFormAddFriend(false); // Close the form when a friend is selected
-  }
-
-  function handleSplitBill(value) {
-    setfriendsArr((friends33) =>
-      friends33.map((friends33) =>
-        friends33.id === selectedFriend.id
-          ? { ...friends33, balance: friends33.balance + value }
-          : friends33
-      )
-    );
-    setSelectedFriend(null); // Reset the selected friend after splitting the bill
-  }
-
   return (
     <div className="app">
       <div className="sidebar">
-        <FriendsList
-          friendsb={friendsArr}
-          selectedFriend1b={selectedFriend}
-          onSelection1a={handleSelectFriend}
-        />
-
+        <FriendsList friendsb={friendsArr} />
         {showFormAddFriend && (
           <FormLowerAddFriend onAddFriend={handleAddFriend} />
         )}
-
         <Buttona onClick1={handleShowFormAddFriend}>
           {showFormAddFriend ? "Close" : "Add Friend"}
         </Buttona>
       </div>
-      {selectedFriend && (
-        <FormRightSplitBill
-          selectedFriend1={selectedFriend}
-          handleSplitBill1a={handleSplitBill}
-        />
-      )}
+      <FormRightSplitBill />
     </div>
   );
 }
 
 // COMPONENT - UPPER LEFT
-function FriendsList({ friendsb, onSelection1a, selectedFriend1b }) {
+function FriendsList({ friendsb }) {
   // const friends = initialFriends;
 
   return (
     <ul>
       {friendsb.map((friend1) => (
-        <Friend
-          frienda={friend1}
-          key={friend1.id}
-          onSelection1b={onSelection1a}
-          selectedFriend1c={selectedFriend1b}
-        />
+        <Friend frienda={friend1} key={friend1.id} />
       ))}
     </ul>
   );
 }
 
 // COMPONENT  - UPPER LEFT - friend array text
-function Friend({ frienda, onSelection1b, selectedFriend1c }) {
-  const isSelected = selectedFriend1c?.id === frienda.id; // Check if the current friend is selected
-
+function Friend({ frienda }) {
   return (
-    <li className={isSelected ? "selected" : ""}>
+    <li>
       <img src={frienda.image} alt={frienda.name} />
       <h3>{frienda.name}</h3>
       {frienda.balance < 0 && (
@@ -127,9 +91,7 @@ function Friend({ frienda, onSelection1b, selectedFriend1c }) {
       )}
       {frienda.balance === 0 && <p>You and {frienda.name} are even</p>}
 
-      <Buttona onClick1={() => onSelection1b(frienda)}>
-        {isSelected ? "Close" : "Select"}
-      </Buttona>
+      <Buttona>Select</Buttona>
     </li>
   );
 }
@@ -179,49 +141,23 @@ function FormLowerAddFriend({ onAddFriend }) {
 }
 
 // COMPONENT - RIGHT
-function FormRightSplitBill({ selectedFriend1, handleSplitBill1a }) {
-  const [bill, setBill] = useState("");
-  const [paidByUser, setpaidByUser] = useState("");
-  const [whoIsPaying, setwhoIsPaying] = useState("user");
-  const paidByFriend = bill ? bill - paidByUser : ""; // Calculate the amount paid by the friend
-
-  function handleSubmit(e) {
-    e.preventDefault(); // Prevent the default form submission behavior
-    if (!bill || !paidByUser) return;
-    handleSplitBill1a(whoIsPaying === "user" ? paidByFriend : -paidByUser);
-  }
-
+function FormRightSplitBill() {
   return (
-    <form className="form-split-bill" onSubmit={handleSubmit}>
-      <h2>Split a bill with {selectedFriend1.name} </h2>
+    <form className="form-split-bill">
+      <h2>Split a bill with...</h2>
       <label>💰 Bill value</label>
-      <input
-        type="text"
-        value={bill}
-        onChange={(e) => setBill(Number(e.target.value))}
-      />
+      <input type="text" />
 
       <label>😎 Your expense</label>
-      <input
-        type="text"
-        value={paidByUser}
-        onChange={(e) =>
-          setpaidByUser(
-            Number(e.target.value) > bill ? paidByUser : Number(e.target.value) // Ensure the value doesn't exceed the bill amount
-          )
-        }
-      />
+      <input type="text" />
 
-      <label>👺 {selectedFriend1.name}'s expense</label>
-      <input type="text" disabled value={paidByFriend} />
+      <label>👺 X's expense</label>
+      <input type="text" disabled />
 
       <label>🤑 Who is paying the bill? </label>
-      <select
-        value={whoIsPaying}
-        onChange={(e) => setwhoIsPaying(e.target.value)}
-      >
+      <select>
         <option value="user">You</option>
-        <option value="friend">{selectedFriend1.name}</option>
+        <option value="friend">XXX</option>
       </select>
 
       <Buttona>Add</Buttona>
