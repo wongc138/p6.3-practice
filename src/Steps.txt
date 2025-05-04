@@ -112,5 +112,32 @@ To make the close button to null
 // 007.19 App();handleSelection(); Add toggle select or close (add ? optional chain because of null) == cur?.id === friend.id ? null : friend
  // 007.19 If current selected fiend id is the same as the friend id, set selectedFriend to null, else set selectedFriend to the friend object. When close it will set selectedFriend to null
 
+ 
+// 008.1 FormSplitBill(); Add [bill]=useState(""); for bill, paidByuser, whoIsPaying
+// 008.2 FormSplitBill(); Add [paidByuser]=useState("");
+// 008.3 FormSplitBill(); Add [whoIsPaying]=useState("user"); for who is paying the bill
 
+{/* 008.4 FormSplitBill();return;<input/> add value={} & onChange={} */}
+
+// 008.5 FormSplitBill(); Add bill ? bill - paidByuser : ""; >> split bill form Expenses calculation >> if there is a bill, calculate the expenses, else return empty string
+{/* 008.6 FormSplitBill();return;<input/> add value={paidByFriend} */}
+ >>> Control form elements
+ {/* 008.7 FormSplitBill();return;<input/>;onChange >> bill ? paidByuser : Number(e.target.value) >> Expanses paid cant be more than bill value, if input more than the bill values, it will not allow it  */}
+ 
+
+ // 009.1 FormSplitBill();return;<form/>; Add onSubmit={handleSubmit}
+ // 009.2 FormSplitBill(); Add handleSubmit function
+ // 009.2 Add e.preventDefault() to prevent page refresh
+ // 009.2 if (!bill || !paidByuser) return nothing
+ // 009.3 App(); Add function handleSplitBill(value)
+ {/* 009.4 App();return;<FormSplitBill/> Add onSplitBill={handleSplitBill} */}
+// 009.5 FormSplitBill(); Add FormSplitBill({onSplitBill}) prop
+// 009.6 FormSplitBill(); Add onSplitBill >> who pays the bill
+ // 009.6 FormSplitBill(); Add onSplitBill(whoIsPaying === "user" ? paidByFriend : -paidByuser) >> if user pays the bill, add the value to the friend balance, else subtract the value from the user balance/ negative number is own by you as user; positive number means friends owes you money.
+ 
+ // 009.7 App();handleSplitBill(); Add setFriends
+ // 009.8 App();handleSplitBill(); Add setSelectedFriend >> once click on split bill, close the form
+ 
+ 
+ 
 ==

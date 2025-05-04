@@ -67,8 +67,8 @@ export default function App() {
     setshowAddFriend(false);
   }
 
-  // 009.3 handleSplitBill
-  // 009.7 setFriends
+  // 009.3 App(); Add function handleSplitBill(value)
+  // 009.7 App();handleSplitBill(); Add setFriends
   function handleSplitBill(value) {
     setFriends((friends) =>
       friends.map((friend) =>
@@ -78,7 +78,7 @@ export default function App() {
       )
     );
 
-    // 009.8 setSelectedFriend >> once click on split bill, close the form
+    // 009.8 App();handleSplitBill(); Add setSelectedFriend >> once click on split bill, close the form
     setSelectedFriend(null);
   }
 
@@ -101,6 +101,7 @@ export default function App() {
         />
         {/* 005.3 App();return; short circuiting showAddFriend-useState && <FormAddFriend/> */}
         {/* 006.22 App();return; <FormAddFriend> Add onAddFriend={handleAddFriend} */}
+
         {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
 
         {/* 005.5 App();return; Updating the state to show FormAddFriend. <Button onClick={handleShowAddFriend}> To pass on the function {handleShowAddFriend} execute to be happen */}
@@ -112,7 +113,7 @@ export default function App() {
       {/* 007.2 handleSelection();return; selectedFriend && (
         <FormSplitBill/> >> short-circuit to not display anything*/}
       {/* 007.9 handleSelection();return;<FormSplitBill/> Add selectedFriend={selectedFriend} */}
-      {/* 009.4 onSplitBill={handleSplitBill} */}
+      {/* 009.4 App();return;<FormSplitBill/> Add onSplitBill={handleSplitBill} */}
       {selectedFriend && (
         <FormSplitBill
           selectedFriend={selectedFriend}
@@ -259,19 +260,22 @@ function FormAddFriend({ onAddFriend }) {
 // 004.9 FormSplitBill(); return; <form> add className="form-split-bill"
 // 004.12 FormSplitBill();return; <h2>Split a bill with XXX </h2>
 // 007.10 FormSplitBill(selectedFriend); Add selectedFriend prop
-// 009.5 onSplitBill prop
+// 009.5 FormSplitBill(); Add FormSplitBill({onSplitBill}) prop
 function FormSplitBill({ selectedFriend, onSplitBill }) {
-  // 008 add state - bill, expense paid by user, who is paying
+  // 008.1 FormSplitBill(); Add [bill]=useState(""); for bill, paidByuser, whoIsPaying
+  // 008.2 FormSplitBill(); Add [paidByuser]=useState("");
+  // 008.3 FormSplitBill(); Add [whoIsPaying]=useState("user"); for who is paying the bill
   const [bill, setBill] = useState("");
   const [paidByuser, setPaidByUser] = useState("");
-  // 008 paidByFriend = split bill form Expenses calc
+  // 008.5 FormSplitBill(); Add bill ? bill - paidByuser : ""; >> split bill form Expenses calculation >> if there is a bill, calculate the expenses, else return empty string
   const paidByFriend = bill ? bill - paidByuser : "";
   const [whoIsPaying, setWhoIsPaying] = useState("user");
 
-  // 009.2 add handleSubmit function
-  // e.preventDefault() to prevent page refresh
-  // if (!bill || !paidByuser) return nothing
-  // 009.6 onSplitBill >> who pays the bill
+  // 009.2 FormSplitBill(); Add handleSubmit function
+  // 009.2 Add e.preventDefault() to prevent page refresh
+  // 009.2 if (!bill || !paidByuser) return nothing
+  // 009.6 FormSplitBill(); Add onSplitBill >> who pays the bill
+  // 009.6 FormSplitBill(); Add onSplitBill(whoIsPaying === "user" ? paidByFriend : -paidByuser) >> if user pays the bill, add the value to the friend balance, else subtract the value from the user balance/ negative number is own by you as user; positive number means friends owes you money.
   function handleSubmit(e) {
     e.preventDefault();
     if (!bill || !paidByuser) return;
@@ -285,14 +289,14 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
   // 004.16 FormSplitBill();return; add <label>Who is paying <select> value={whoIsPaying} <option value="user"> <option value="friend">
 
   // 007.11 FormSplitBill();return;<form/>; Add selectedFriend.name to the name label >> copy paste to all name labels
-  // 009.1 add onSubmit={handleSubmit}
+  // 009.1 FormSplitBill();return;<form/>; Add onSubmit={handleSubmit}
   return (
     <form className="form-split-bill" onSubmit={handleSubmit}>
-      {/* 007 selectedFriend.name */}
+      {/* 007.11 selectedFriend.name */}
       <h2>Split a bill with {selectedFriend.name} </h2>
 
       <label>💰 Bill Value </label>
-      {/* 008 add value & onChange */}
+      {/* 008.4 FormSplitBill();return;<input/> add value={} & onChange={} */}
       <input
         type="text"
         value={bill}
@@ -300,8 +304,8 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
       />
 
       <label>🐵 Your Expanses </label>
-      {/* 008 add value & onChange */}
-      {/* 008 bill ? paidByuser : Number(e.target.value) >> Expanses paid cant be more than bill value, if type more than the bill number it will not allow  */}
+      {/* 008.4 FormSplitBill();return;<input/> add value={} & onChange={} */}
+      {/* 008.7 FormSplitBill();return;<input/>;onChange >> bill ? paidByuser : Number(e.target.value) >> Expanses paid cant be more than bill value, if input more than the bill values, it will not allow it  */}
       <input
         type="text"
         value={paidByuser}
@@ -314,11 +318,11 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
 
       {/* 007.11 selectedFriend.name */}
       <label>🤼 {selectedFriend.name}'s Expenses</label>
-      {/* 008 add value={paidByFriend} */}
+      {/* 008.6 FormSplitBill();return;<input/> add value={paidByFriend} */}
       <input type="text" disabled value={paidByFriend} />
 
       <label>🤑 Who is paying the bill</label>
-      {/* 008 add value & onChange */}
+      {/* 008.4 FormSplitBill();return;<input/> add value={} & onChange={} */}
       <select
         value={whoIsPaying}
         onChange={(e) => setWhoIsPaying(e.target.value)}
