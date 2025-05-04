@@ -80,4 +80,37 @@
  // 006.25 App();handleAddFriend(); setshowAddFriend(false); to close the form after adding a friend
  
  
+ // 007.1 App(); [selectedFriend]=useState(null); >> useState to set the initial state of selectedFriend to null (no friend selected)]
+ {/* 007.2 handleSelection();return; selectedFriend && ( <FormSplitBill/> >> short-circuit to not display anything*/}
+ // 007.3 App();handleSelection(friend); Add function handleSelection(friend) to select a friend to split the bill with >>
+  // 007.3 click select button to select a friend object
+ {/* 007.4 App();return;<FriendList/> Add onSelection={handleSelection} */}
+  {/* 007.4 add onSelection prop to FriendList */}
+ // 007.5 add onSelection prop => passing prop to Friend (prop drilling)
+// 007.6 FriendList();return; Add onSelection prop to FriendList >> to pass it down to Friend component
+// 007.7 Friend({onSelection}) Add onSelection prop => passing prop to Button >> This is where we use this function
+{/* 007.8 Friend();return;<Button/> Add onClick={() => onSelection(friend) => open up split a bill form >> passing down handleSelection function via props*/}
+
+
+Pass selected friend object details to the form 
+{/* 007.9 handleSelection();return;<FormSplitBill/> Add selectedFriend={selectedFriend} */}
+// 007.10 FormSplitBill(selectedFriend); Add selectedFriend prop
+// 007.11 FormSplitBill();return;<form/>; Add selectedFriend.name to the name label >> copy paste to all name labels
+{/* 007.11 selectedFriend.name */}
+
+How to know which friend is currently selected?
+{/* 007.12 App();return;<FriendList/> Add selectedFriend={selectedFriend} */}
+ // 007.13 FriendList({selectedFriend}); Add selectedFriend prop => passing prop to FriendList
+ // 007.14 FriendList();return; Add electedFriend={selectedFriend} to FriendList >> to pass it down to Friend component
+ 
+ compare selectedfriend to current friend
+ // 007.16 Friend();const isSelected; Add isSelected as boolean; ? means (optional chain) stop if selectedFriend is null
+ // 007.17 Friend();return;<li/> Add isSelected ? "selected" : "" to add className to the li element
+{/* 007.18 Friend();return;<Button/> button either => "Close" : "Select" */}
+
+To make the close button to null
+// 007.19 App();handleSelection(); Add toggle select or close (add ? optional chain because of null) == cur?.id === friend.id ? null : friend
+ // 007.19 If current selected fiend id is the same as the friend id, set selectedFriend to null, else set selectedFriend to the friend object. When close it will set selectedFriend to null
+
+
 ==

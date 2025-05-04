@@ -39,6 +39,7 @@ export default function App() {
   // 005.1 To show/hide FormAddFriend, need to add state in the App component
   // 005.2 App(); [showAddFriend]=useState(false)
   const [showAddFriend, setshowAddFriend] = useState(false);
+  // 007.1 App(); [selectedFriend]=useState(null); >> useState to set the initial state of selectedFriend to null (no friend selected)
   const [selectedFriend, setSelectedFriend] = useState(null);
 
   // 005.6 App(); function handleShowAddFriend() >> setshowAddFriend-useState >> To show/hide FormAddFriend >> ((show) => !show)
@@ -55,10 +56,12 @@ export default function App() {
     setshowAddFriend(false);
   }
 
-  // 007 button select friend
+  // 007.3 App();handleSelection(friend); Add function handleSelection(friend) to select a friend to split the bill with >>
+  // 007.3 click select button to select a friend object
   function handleSelection(friend) {
     // setSelectedFriend(friend);
-    // 007 add toggle select or close (add ? optional chain because of null) == cur?.id === friend.id ? null : friend
+    // 007.19 App();handleSelection(); Add toggle select or close (add ? optional chain because of null) == cur?.id === friend.id ? null : friend
+    // 007.19 If current selected fiend id is the same as the friend id, set selectedFriend to null, else set selectedFriend to the friend object. When close it will set selectedFriend to null
     setSelectedFriend((cur) => (cur?.id === friend.id ? null : friend));
     // 007 add close form if add friend form is open
     setshowAddFriend(false);
@@ -88,8 +91,9 @@ export default function App() {
     <div className="app">
       <div className="sidebar">
         {/* 006.17 App();return;<FriendList/> friends={friends} Giving access to the useSate by passing down friends as a prop to FriendList() component */}
-        {/* 007 add onSelection prop to FriendList */}
-        {/* 007 add selectedFriend */}
+        {/* 007.4 App();return;<FriendList/> Add onSelection={handleSelection} */}
+        {/* 007.4 add onSelection prop to FriendList */}
+        {/* 007.12 App();return;<FriendList/> Add selectedFriend={selectedFriend} */}
         <FriendList
           friends={friends}
           selectedFriend={selectedFriend}
@@ -105,7 +109,9 @@ export default function App() {
           {showAddFriend ? "Close" : "Add Friend"}
         </Button>
       </div>
-      {/* 007 selectedFriend => pass on details to split bill form */}
+      {/* 007.2 handleSelection();return; selectedFriend && (
+        <FormSplitBill/> >> short-circuit to not display anything*/}
+      {/* 007.9 handleSelection();return;<FormSplitBill/> Add selectedFriend={selectedFriend} */}
       {/* 009.4 onSplitBill={handleSplitBill} */}
       {selectedFriend && (
         <FormSplitBill
@@ -122,13 +128,15 @@ export default function App() {
 // 003.7 FriendList(); add friends.map((friend) => {friend.name} )
 // 003.9 FriendList();return: add <Friend /> component;
 // 006.18 FriendList(friends); Receive the friends prop from App() component
-// 007 add onSelection prop => passing prop to Friend (prop drilling)
-// 007 add selectedFriend prop => passing prop to FriendList
+// 007.5 add onSelection prop => passing prop to Friend (prop drilling)
+// 007.13 FriendList({selectedFriend}); Add selectedFriend prop => passing prop to FriendList
 function FriendList({ friends, onSelection, selectedFriend }) {
   // 006.15 Get rid of initialFriends; add friends as a prop to parent component App(), as Lifting state up
   // const friends = initialFriends;
 
   return (
+    // 007.6 FriendList();return; Add onSelection prop to FriendList >> to pass it down to Friend component
+    // 007.14 FriendList();return; Add electedFriend={selectedFriend} to FriendList >> to pass it down to Friend component
     <ul>
       {friends.map((friend) => (
         <Friend
@@ -143,17 +151,17 @@ function FriendList({ friends, onSelection, selectedFriend }) {
 }
 
 // 003.8 add function Friend(); move (friend) => {friend.name} between <li> </li>
-// 007 add onSelection prop => passing prop to Button
-// 007 add selectedFriend prop
+// 007.7 Friend({onSelection}) Add onSelection prop => passing prop to Button >> This is where we use this function
+// 007.15 Friend({selectedFriend}); add selectedFriend prop
 function Friend({ friend, onSelection, selectedFriend }) {
-  // 007 add isSelected as boolean; ? means (optional chain) stop if selectedFriend is null
+  // 007.16 Friend();const isSelected; Add isSelected as boolean; ? means (optional chain) stop if selectedFriend is null
   const isSelected = selectedFriend?.id === friend.id;
 
   return (
     // 003.10 Friend();return; add img alt; <h3>{friend.name}</h3>
     // 003.11 Friend();return; add <p>{friend.balance}</p> with conditionals >> You owe, they owe, even >> ternary operator
     // 003.12 Friend();return; add <Button> Select </Button>
-    // 007 add className selected
+    // 007.17 Friend();return;<li/> Add isSelected ? "selected" : "" to add className to the li element
     <li className={isSelected ? "selected" : ""}>
       {/* {friend.name} */}
       <img src={friend.image} alt={friend.name} />
@@ -172,8 +180,8 @@ function Friend({ friend, onSelection, selectedFriend }) {
       {friend.balance === 0 && <p>You and {friend.name} are even</p>}
 
       {/* 004.5 Friend();return; Add <Button> Select  */}
-      {/* 007 add onCLick => open up split a bill form*/}
-      {/* 007 button either => "Close" : "Select" */}
+      {/* 007.8 Friend();return;<Button/> Add onClick={() => onSelection(friend) => open up split a bill form >> passing down handleSelection function via props*/}
+      {/* 007.18 Friend();return;<Button/> button either => "Close" : "Select" */}
       <Button onClick={() => onSelection(friend)}>
         {isSelected ? "Close" : "Select"}
       </Button>
@@ -250,7 +258,7 @@ function FormAddFriend({ onAddFriend }) {
 
 // 004.9 FormSplitBill(); return; <form> add className="form-split-bill"
 // 004.12 FormSplitBill();return; <h2>Split a bill with XXX </h2>
-// 007 add selectedFriend prop
+// 007.10 FormSplitBill(selectedFriend); Add selectedFriend prop
 // 009.5 onSplitBill prop
 function FormSplitBill({ selectedFriend, onSplitBill }) {
   // 008 add state - bill, expense paid by user, who is paying
@@ -276,6 +284,7 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
   // 004.15 FormSplitBill();return; add <label>X's expense  Add <input disabled> ; disabled input so user cant change it
   // 004.16 FormSplitBill();return; add <label>Who is paying <select> value={whoIsPaying} <option value="user"> <option value="friend">
 
+  // 007.11 FormSplitBill();return;<form/>; Add selectedFriend.name to the name label >> copy paste to all name labels
   // 009.1 add onSubmit={handleSubmit}
   return (
     <form className="form-split-bill" onSubmit={handleSubmit}>
@@ -303,7 +312,7 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
         }
       />
 
-      {/* 007 selectedFriend.name */}
+      {/* 007.11 selectedFriend.name */}
       <label>🤼 {selectedFriend.name}'s Expenses</label>
       {/* 008 add value={paidByFriend} */}
       <input type="text" disabled value={paidByFriend} />
@@ -315,7 +324,7 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
         onChange={(e) => setWhoIsPaying(e.target.value)}
       >
         <option value="user">You</option>
-        {/* 007 selectedFriend.name */}
+        {/* 007.11 selectedFriend.name */}
         <option value="friend">{selectedFriend.name} </option>
       </select>
       <Button>Split Bill</Button>
